@@ -97,13 +97,10 @@ class ChessPiece(QGraphicsPixmapItem):
     def mousePressEvent(self, event):
         self.previous_row, self.previous_col = self.currentPosition()
 
-        #self.printChessTable()
 
-        #print(self.currentPosition())
         if self.scene().mate != True: 
             self.isBeingDragged = True
             self.setPixmapWithSize(self.original_size * 1.2)
-        # print(f"{self.piece_type},{self.getValidMoves()}")
             self.valid_moves = None
             self.paintValidMoves()
             super().mousePressEvent(event)
@@ -115,7 +112,6 @@ class ChessPiece(QGraphicsPixmapItem):
         self.setPixmapWithSize(self.original_size)
 
         self.checkPosition()
-        #print(f"{self.currentPosition()}\n")
 
         self.checkMove()
 
@@ -133,7 +129,6 @@ class ChessPiece(QGraphicsPixmapItem):
                 if item.piece_type == "king" and item.color != self.color:
                     king = item
                     break
-        #print(king.currentPosition())
         row, col =king.currentPosition()
 
         #sprawdź czy król jest szachowany
@@ -143,7 +138,6 @@ class ChessPiece(QGraphicsPixmapItem):
                 if isinstance(item, ChessPiece) and self.scene().check==False:
                     if item.color != king.color:
                         item.valid_moves, _ = item.getValidMoves()
-                        print(item.piece_type, item.valid_moves)
                         for move in item.valid_moves:
                             if(row, col) == move:
                                 print("SZACH")
@@ -155,20 +149,12 @@ class ChessPiece(QGraphicsPixmapItem):
         self.colorBool = True if self.color == "white" else False
         self.current_row, self.current_col = self.currentPosition()
         if self.checkTurn(self.colorBool):
-            #print("1")  
             if self.moveIsNotInTheSamePlace():
-                #print("2")
                 if self.isValidMove():
-                    #print("3")
-                    if self.isNotOccupied():
-                        #print("4")
-                        #print('\nwhite turn' if self.scene().turn else '\nblack turn')
-                        
+                    if self.isNotOccupied():                        
 
                         self.updateChessboardTable()
-
                         self.scene().turn = not self.scene().turn
-                        #chessboard.addMessage(self.chessNotation())
                         chessboard.addMessage('white turn' if self.scene().turn else 'black turn')
 
             
@@ -430,9 +416,7 @@ class ChessPiece(QGraphicsPixmapItem):
 
 
         possible = True if valid_moves else False
-        #print(possible, valid_moves)
-        #self.chessNotation() if possible else None
-        # print(self.piece_type, valid_moves)
+        self.chessNotation() if possible else None
         return valid_moves, possible
 
 # Klasa reprezentująca szachownicę
